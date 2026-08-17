@@ -45,9 +45,21 @@
     padding: 24px 16px 60px;
     max-width: 460px;
     margin: 0 auto;
+    overflow-x: hidden;
   }
 
-  /* ── HEADER CON LOGO ── */
+  /* ── CANVAS CONFETTI OVERLAY ── */
+  #confettiCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── HEADER ── */
   header {
     text-align: center;
     margin-bottom: 24px;
@@ -57,8 +69,8 @@
   }
 
   .logo-img {
-    width: 80px;
-    height: 80px;
+    width: 84px;
+    height: 84px;
     border-radius: 20px;
     margin-bottom: 12px;
     box-shadow: 0 0 20px var(--accent-glow);
@@ -185,7 +197,7 @@
     letter-spacing: 1px;
   }
 
-  /* ── FORMULARIO REORGANIZADO ── */
+  /* ── FORMULARIO ── */
   .add-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -365,21 +377,25 @@
     position: fixed;
     bottom: 24px;
     left: 50%;
-    transform: translateX(-50%) translateY(90px);
+    transform: translateX(-50%) translateY(120px);
     background: var(--accent);
     color: #0a0f1e;
     font-weight: 700;
     font-size: 13px;
-    padding: 10px 20px;
+    padding: 12px 22px;
     border-radius: 99px;
     transition: transform 0.3s ease;
-    z-index: 100;
+    z-index: 10000;
+    text-align: center;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.5);
   }
 
   .toast.show { transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
+
+<canvas id="confettiCanvas"></canvas>
 
 <header>
   <img src="icon-512.png" alt="Logo $10K" class="logo-img" onerror="this.style.display='none'">
@@ -469,6 +485,70 @@ const KEY   = 'bonusReto10k';
 
 let entries = [];
 
+// ── CONFETTI ENGINE (OFFLINE) ──
+const canvas = document.getElementById('confettiCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let animId = null;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function launchConfetti(count = 70, isMega = false) {
+  const colors = isMega 
+    ? ['#00e5a0', '#f5c542', '#ffffff', '#00c87a', '#ffd700', '#38bdf8'] 
+    : ['#00e5a0', '#f5c542', '#ffffff'];
+
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: isMega ? Math.random() * canvas.width : canvas.width / 2 + (Math.random() * 80 - 40),
+      y: isMega ? -20 : canvas.height / 2,
+      vx: (Math.random() - 0.5) * (isMega ? 8 : 12),
+      vy: isMega ? Math.random() * 5 + 2 : (Math.random() - 0.5) * 12 - 4,
+      size: Math.random() * 7 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      tilt: Math.random() * 10,
+      tiltAngle: 0,
+      tiltAngleInc: Math.random() * 0.08 + 0.04,
+      life: 1
+    });
+  }
+
+  if (!animId) updateConfetti();
+}
+
+function updateConfetti() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach((p, idx) => {
+    p.tiltAngle += p.tiltAngleInc;
+    p.y += (p.vy + 2);
+    p.x += p.vx;
+    p.tilt = Math.sin(p.tiltAngle) * 12;
+    p.life -= 0.007;
+
+    ctx.beginPath();
+    ctx.lineWidth = p.size / 2;
+    ctx.strokeStyle = p.color;
+    ctx.moveTo(p.x + p.tilt + p.size / 2, p.y);
+    ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.size / 2);
+    ctx.stroke();
+
+    if (p.y > canvas.height || p.life <= 0) particles.splice(idx, 1);
+  });
+
+  if (particles.length > 0) {
+    animId = requestAnimationFrame(updateConfetti);
+  } else {
+    animId = null;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
+// ── INIT & LOGIC ──
 function init() {
   const saved = localStorage.getItem(KEY);
   if (saved) entries = JSON.parse(saved);
@@ -492,6 +572,9 @@ function addEntry() {
   if (!amt || amt <= 0) { showToast('Ingresa una cantidad válida'); return; }
   if (!dt) { showToast('Selecciona una fecha'); return; }
 
+  const currentTotal = entries.reduce((s, e) => s + e.amt, 0);
+  const nextTotal = currentTotal + amt;
+
   entries.unshift({ id: Date.now(), src, amt, dt });
   save();
 
@@ -499,7 +582,20 @@ function addEntry() {
   document.getElementById('amtInput').value = '';
 
   render();
-  showToast(`+$${fmt(amt)} agregado ✓`);
+
+  // ── DETECCIÓN DE HITOS ──
+  if (currentTotal < 10000 && nextTotal >= 10000) {
+    // META FINAL $10,000
+    launchConfetti(220, true);
+    setTimeout(() => launchConfetti(150, true), 800);
+    showToast('🏆 ¡OBJETIVO LOGRADO! $10,000 COMPLETADOS 🎉', 5000);
+  } else if (currentTotal < 5000 && nextTotal >= 5000) {
+    // MITAD DE CAMINO $5,000
+    launchConfetti(100, false);
+    showToast('🔥 ¡Mitad del camino alcanzada ($5,000)! Sigue así 🚀', 4000);
+  } else {
+    showToast(`+$${fmt(amt)} agregado ✓`);
+  }
 }
 
 function deleteEntry(id) {
@@ -567,11 +663,11 @@ function esc(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-function showToast(msg) {
+function showToast(msg, duration = 2400) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2400);
+  setTimeout(() => t.classList.remove('show'), duration);
 }
 
 init();
