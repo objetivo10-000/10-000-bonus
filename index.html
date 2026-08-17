@@ -26,13 +26,11 @@
   :root {
     --bg: #0a0f1e;
     --surface: #111827;
-    --surface-input: #070b14;
     --border: #1e2d45;
     --accent: #00e5a0;
     --accent-dim: rgba(0,229,160,0.12);
     --accent-glow: rgba(0,229,160,0.35);
     --gold: #f5c542;
-    --gold-dim: rgba(245,197,66,0.12);
     --text: #e8f0fe;
     --muted: #6b7fa3;
     --danger: #ff5f5f;
@@ -44,8 +42,8 @@
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    padding: 20px 16px 80px;
-    max-width: 480px;
+    padding: 24px 16px 60px;
+    max-width: 460px;
     margin: 0 auto;
   }
 
@@ -58,20 +56,19 @@
     align-items: center;
   }
 
-  .app-logo {
-    width: 96px;
-    height: 96px;
-    border-radius: 22px;
-    object-fit: cover;
+  .logo-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
     margin-bottom: 12px;
-    box-shadow: 0 8px 24px rgba(0, 229, 160, 0.2);
-    border: 1px solid rgba(0, 229, 160, 0.3);
+    box-shadow: 0 0 20px var(--accent-glow);
+    border: 1px solid var(--accent);
   }
 
   .eyebrow {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     color: var(--accent);
     text-transform: uppercase;
     margin-bottom: 6px;
@@ -81,7 +78,7 @@
     font-size: 2.2rem;
     font-weight: 800;
     line-height: 1.1;
-    background: linear-gradient(135deg, #fff 40%, var(--accent));
+    background: linear-gradient(135deg, #fff 30%, var(--accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -90,7 +87,7 @@
   .subtitle {
     color: var(--muted);
     font-size: 12px;
-    font-weight: 400;
+    font-weight: 300;
     margin-top: 6px;
     font-family: 'DM Mono', monospace;
   }
@@ -101,24 +98,14 @@
     border: 1px solid var(--border);
     border-radius: var(--card-radius);
     padding: 24px 20px;
-    margin-bottom: 18px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    margin-bottom: 20px;
   }
 
   .amounts-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
-    margin-bottom: 22px;
+    margin-bottom: 24px;
   }
 
   .amount-block { text-align: center; }
@@ -126,10 +113,10 @@
   .amount-label {
     font-size: 10px;
     font-family: 'DM Mono', monospace;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     color: var(--muted);
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
 
   .amount-value {
@@ -140,8 +127,6 @@
 
   .amount-value.earned { color: var(--accent); }
   .amount-value.remaining { color: var(--gold); }
-
-  .progress-wrap { margin-bottom: 16px; }
 
   .progress-header {
     display: flex;
@@ -173,32 +158,31 @@
     height: 100%;
     border-radius: 99px;
     background: linear-gradient(90deg, #00c87a, var(--accent));
-    transition: width 0.7s cubic-bezier(.4,0,.2,1);
     box-shadow: 0 0 12px var(--accent-glow);
     min-width: 4px;
+    transition: width 0.5s ease;
   }
 
   .time-section {
-    margin-top: 16px;
-    padding-top: 16px;
+    margin-top: 18px;
+    padding-top: 18px;
     border-top: 1px solid var(--border);
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 8px;
+    gap: 10px;
     text-align: center;
   }
 
   .time-block .val {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--text);
   }
 
   .time-block .lbl {
-    font-size: 9px;
+    font-size: 10px;
     font-family: 'DM Mono', monospace;
     color: var(--muted);
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
   }
 
   /* ── FORMULARIO REORGANIZADO ── */
@@ -207,44 +191,41 @@
     border: 1px solid var(--border);
     border-radius: var(--card-radius);
     padding: 20px;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
   }
 
   .add-card h2 {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 1.5px;
     color: var(--accent);
     text-transform: uppercase;
     font-family: 'DM Mono', monospace;
     margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
   }
 
-  .form-stack {
+  .form-container {
     display: flex;
     flex-direction: column;
     gap: 14px;
   }
 
-  .input-group {
+  .form-field {
     display: flex;
     flex-direction: column;
     gap: 6px;
     width: 100%;
   }
 
-  .input-row-grid {
+  .form-field-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
   }
 
   label {
     font-size: 11px;
-    color: #9ab0d3;
+    color: var(--muted);
     font-family: 'DM Mono', monospace;
     font-weight: 500;
   }
@@ -252,45 +233,22 @@
   input[type="text"],
   input[type="number"],
   input[type="date"] {
-    background: var(--surface-input);
-    border: 1.5px solid var(--border);
+    background: #080d1a !important;
+    border: 1.5px solid var(--border) !important;
     border-radius: 10px;
-    color: #ffffff;
+    color: #ffffff !important;
     font-family: 'Sora', sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     padding: 12px 14px;
     width: 100%;
-    transition: all 0.2s ease;
+    min-width: 0;
+    max-width: 100% !important;
+    outline: none;
     -webkit-appearance: none;
   }
 
   input:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-dim);
-  }
-
-  /* Quick chips para montos frecuentes */
-  .quick-amounts {
-    display: flex;
-    gap: 6px;
-    margin-top: 4px;
-  }
-
-  .chip-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    border-radius: 6px;
-    padding: 4px 8px;
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    cursor: pointer;
-  }
-
-  .chip-btn:active {
-    background: var(--accent-dim);
-    color: var(--accent);
+    border-color: var(--accent) !important;
   }
 
   .btn-add {
@@ -302,14 +260,9 @@
     font-family: 'Sora', sans-serif;
     font-size: 15px;
     font-weight: 700;
-    padding: 14px;
+    padding: 13px;
     width: 100%;
     margin-top: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: opacity 0.2s, transform 0.1s;
   }
 
   .btn-add:active { transform: scale(0.98); }
@@ -333,7 +286,6 @@
   .log-header h2 {
     font-size: 13px;
     font-weight: 600;
-    letter-spacing: 1px;
     color: var(--gold);
     text-transform: uppercase;
     font-family: 'DM Mono', monospace;
@@ -346,20 +298,17 @@
   }
 
   .empty-state {
-    padding: 36px 20px;
+    padding: 30px 20px;
     text-align: center;
     color: var(--muted);
     font-size: 13px;
-    line-height: 1.5;
   }
-
-  .empty-state .icon { font-size: 30px; margin-bottom: 8px; }
 
   .entry {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 14px 20px;
+    padding: 12px 18px;
     border-bottom: 1px solid var(--border);
   }
 
@@ -369,15 +318,13 @@
     font-family: 'DM Mono', monospace;
     font-size: 11px;
     color: var(--muted);
-    min-width: 18px;
-    text-align: right;
+    min-width: 16px;
   }
 
   .entry-dot {
     width: 8px; height: 8px;
     border-radius: 50%;
     background: var(--accent);
-    flex-shrink: 0;
     box-shadow: 0 0 6px var(--accent-glow);
   }
 
@@ -395,7 +342,6 @@
     font-size: 11px;
     color: var(--muted);
     font-family: 'DM Mono', monospace;
-    margin-top: 2px;
   }
 
   .entry-amount {
@@ -403,7 +349,6 @@
     font-weight: 700;
     color: var(--accent);
     font-family: 'DM Mono', monospace;
-    flex-shrink: 0;
   }
 
   .btn-del {
@@ -412,28 +357,23 @@
     color: var(--muted);
     cursor: pointer;
     font-size: 16px;
-    padding: 4px 6px;
-    border-radius: 6px;
+    padding: 4px;
   }
-
-  .btn-del:active { color: var(--danger); }
 
   /* ── TOAST ── */
   .toast {
     position: fixed;
     bottom: 24px;
     left: 50%;
-    transform: translateX(-50%) translateY(100px);
+    transform: translateX(-50%) translateY(90px);
     background: var(--accent);
     color: #0a0f1e;
     font-weight: 700;
     font-size: 13px;
     padding: 10px 20px;
     border-radius: 99px;
-    transition: transform 0.25s ease;
+    transition: transform 0.3s ease;
     z-index: 100;
-    white-space: nowrap;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
   }
 
   .toast.show { transform: translateX(-50%) translateY(0); }
@@ -442,14 +382,12 @@
 <body>
 
 <header>
-  <!-- Logo de tu repositorio -->
-  <img src="icon-512.png" alt="Logo $10K" class="app-logo" onerror="this.style.display='none'">
+  <img src="icon-512.png" alt="Logo $10K" class="logo-img" onerror="this.style.display='none'">
   <p class="eyebrow">Reto 2026 · 2027</p>
   <h1>$10K en Bonos</h1>
   <p class="subtitle">Jun 1, 2026 → Jun 1, 2027</p>
 </header>
 
-<!-- HERO CARD -->
 <div class="hero-card">
   <div class="amounts-row">
     <div class="amount-block">
@@ -462,14 +400,12 @@
     </div>
   </div>
 
-  <div class="progress-wrap">
-    <div class="progress-header">
-      <span class="progress-pct" id="pct">0%</span>
-      <span class="progress-meta" id="progressMeta">$0 de $10,000</span>
-    </div>
-    <div class="bar-track">
-      <div class="bar-fill" id="bar" style="width:0%"></div>
-    </div>
+  <div class="progress-header">
+    <span class="progress-pct" id="pct">0%</span>
+    <span class="progress-meta" id="progressMeta">$0 de $10,000</span>
+  </div>
+  <div class="bar-track">
+    <div class="bar-fill" id="bar" style="width:0%"></div>
   </div>
 
   <div class="time-section">
@@ -488,39 +424,29 @@
   </div>
 </div>
 
-<!-- AGREGAR BONO -->
 <div class="add-card">
-  <h2><span>+</span> Agregar Bono</h2>
-  <div class="form-stack">
-    <div class="input-group">
+  <h2>+ Agregar Bono</h2>
+  <div class="form-container">
+    <div class="form-field">
       <label>Fuente (banco o tarjeta)</label>
       <input type="text" id="srcInput" placeholder="Ej: Chase Sapphire, Fifth Third...">
     </div>
 
-    <div class="input-row-grid">
-      <div class="input-group">
+    <div class="form-field-row">
+      <div class="form-field">
         <label>Cantidad ($)</label>
         <input type="number" id="amtInput" placeholder="Ej: 450" min="1" step="1">
-        <div class="quick-amounts">
-          <button type="button" class="chip-btn" onclick="setAmt(200)">$200</button>
-          <button type="button" class="chip-btn" onclick="setAmt(300)">$300</button>
-          <button type="button" class="chip-btn" onclick="setAmt(500)">$500</button>
-        </div>
       </div>
-      <div class="input-group">
+      <div class="form-field">
         <label>Fecha</label>
         <input type="date" id="dateInput">
       </div>
     </div>
 
-    <button class="btn-add" onclick="addEntry()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-      Guardar Bono
-    </button>
+    <button class="btn-add" onclick="addEntry()">+ Agregar Bono</button>
   </div>
 </div>
 
-<!-- HISTORIAL -->
 <div class="log-card">
   <div class="log-header">
     <h2>Historial de bonos</h2>
@@ -528,8 +454,7 @@
   </div>
   <div id="logList">
     <div class="empty-state">
-      <div class="icon">🏦</div>
-      <div>Aún no hay bonos registrados.<br>¡Agrega tu primer bono arriba!</div>
+      <div>🏦 Aún no hay bonos registrados.</div>
     </div>
   </div>
 </div>
@@ -558,10 +483,6 @@ function save() {
   localStorage.setItem(KEY, JSON.stringify(entries));
 }
 
-function setAmt(val) {
-  document.getElementById('amtInput').value = val;
-}
-
 function addEntry() {
   const src = document.getElementById('srcInput').value.trim();
   const amt = parseFloat(document.getElementById('amtInput').value);
@@ -578,7 +499,7 @@ function addEntry() {
   document.getElementById('amtInput').value = '';
 
   render();
-  showToast(`+$${fmt(amt)} agregado con éxito ✓`);
+  showToast(`+$${fmt(amt)} agregado ✓`);
 }
 
 function deleteEntry(id) {
@@ -614,11 +535,7 @@ function render() {
   document.getElementById('logCount').textContent = entries.length + (entries.length === 1 ? ' bono' : ' bonos');
 
   if (entries.length === 0) {
-    logList.innerHTML = `
-      <div class="empty-state">
-        <div class="icon">🏦</div>
-        <div>Aún no hay bonos registrados.<br>¡Agrega tu primer bono arriba!</div>
-      </div>`;
+    logList.innerHTML = `<div class="empty-state"><div>🏦 Aún no hay bonos registrados.</div></div>`;
     return;
   }
 
@@ -631,7 +548,7 @@ function render() {
         <div class="entry-date">${fmtDate(e.dt)}</div>
       </div>
       <div class="entry-amount">+$${fmt(e.amt)}</div>
-      <button class="btn-del" onclick="deleteEntry(${e.id})" title="Eliminar">✕</button>
+      <button class="btn-del" onclick="deleteEntry(${e.id})">✕</button>
     </div>
   `).join('');
 }
@@ -664,8 +581,7 @@ init();
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js')
-        .then((reg) => console.log('SW registrado:', reg.scope))
-        .catch((err) => console.warn('Fallo SW:', err));
+        .then((reg) => reg.update());
     });
   }
 </script>
